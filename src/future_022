@@ -1,0 +1,935 @@
+package stepdefinitions;
+
+import io.cucumber.java.en.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.ManagementPage;
+import runners.TestRunner;
+import utils.ClickUtils;
+import utils.ReusableMethods;
+import utils.SendKeysUtils;
+import utils.SwitchToWindow;
+
+import java.io.IOException;
+import java.time.Duration;
+
+public class US022StudentSteps {
+    private WebDriverWait wait;
+    private static final Logger logger = LogManager.getLogger(TestRunner.class);
+    WebDriver driver = stepdefinitions.Hooks.getDriver();
+    // SoftAssert'i sınıf seviyesinde tanımlamak yerine her metodun içinde oluşturun.
+    ManagementPage managementPage = new ManagementPage(driver);
+    public static final String descriptionText = "Diferansiyel denklemler ders notlarına ek olarak, hemen hemen her konuya ait birkaç soru, çözümleri ile\n" +
+            "verilmiştir. Bazı sorularda geçen teoremler, dersin temel kitabı “Elementary Diffrerential Equations and\n" +
+            "Boundary Value Problems, Boyce, DiPrima, Sixth Edition” ‘daki teorem numarasına göredir. Soruların\n" +
+            "üzerine, farenin (mause) imlecini getirip tıklarsanız, sorunun cevabını, cevabın üzerini tıklarsanız,\n" +
+            "ayrıntılı cevabı görebilirsiniz.\n";
+    public static final String fileThumbnailPath = "C:\\Users\\user\\Desktop\\instuLearn\\test1.jpeg";
+    public static final String fileCoverImagePath = "C:\\Users\\user\\Desktop\\instuLearn\\test2.jpeg";
+    public static final String NEW_LESSON_TITLE = "Math";
+    public static final String step2Url = "https://qa.instulearn.com/panel/webinars/3158/step/2";
+    public static final String hooksURL = "https://qa.instulearn.com/panel/webinars/3169/step/2";
+    public static final String LOGIN_PAGE_URL = "https://qa.instulearn.com/login";
+    public static final String HEAD_URL = "https://qa.instulearn.com/panel/webinars/";
+    public static final String PRODUCTS_ITEM = "3177";
+    public static final String SECTION_URL = "/step/";
+    public static final String END_POINT2 = "2"; // Extra Information
+    public static final String END_POINT3 = "3"; // Pricing
+    public static final String END_POINT4 = "4"; // Content
+    public static final String END_POINT5 = "5"; // Prerequisites
+    public static final String END_POINT6 = "6"; // FAQ
+    public static final String END_POINT7 = "7"; // Quiz & Certification
+    public static final String EXTRA_INFORMATIONS_URL = HEAD_URL + PRODUCTS_ITEM + SECTION_URL + END_POINT2;
+    public static final String PRICING_URL = HEAD_URL + PRODUCTS_ITEM + SECTION_URL + END_POINT3;
+    public static final String CONTENT_URL = HEAD_URL + PRODUCTS_ITEM + SECTION_URL + END_POINT4;
+    public static final String PREREQUISITES_URL = HEAD_URL + PRODUCTS_ITEM + SECTION_URL + END_POINT5;
+    public static final String FAQ_URL = HEAD_URL + PRODUCTS_ITEM + SECTION_URL + END_POINT6;
+    public static final String QUIZ_URL = HEAD_URL + PRODUCTS_ITEM + SECTION_URL + END_POINT7;
+    public static final String teacherMail = "ahmet.teacher@instulearn.com";
+    public static final String teacherPassword = "Learn.1406";
+
+
+    public US022StudentSteps() {
+        // WebDriverWait nesnesini constructor içinde başlatın. 10 saniye bekleme süresi idealdir.
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
+
+    @Given("Kullanici loginButona tiklar")
+    public void kullanici_login_butona_tiklar() {
+
+        ClickUtils.smartClick(driver, managementPage.loginButton);
+        driver.get("https://qa.instulearn.com/login");
+        // daha sonra assertion bırak
+
+
+    }
+
+    @Then("Kullanici mailKutusuna ogrenciMail adresi girer")
+    public void kullanici_mail_kutusuna_ogrenci_mail_adresi_girer() {
+        SendKeysUtils.smartSendKeys(driver, managementPage.mailBox, "ahmet.student@instulearn.com");
+        ReusableMethods.bekle(1);
+
+    }
+
+    @Then("Kullanici passwordKutusuna ogrenciSifre girer")
+    public void kullanici_password_kutusuna_ogrenci_sifre_girer() {
+        SendKeysUtils.smartSendKeys(driver, managementPage.passwordBox, "Learn.1406");
+        ReusableMethods.bekle(1);
+
+    }
+
+    @Then("Kullanici submitButona basar")
+    public void kullanici_submit_butona_basar() {
+        ClickUtils.smartClick(driver, managementPage.submitButton);
+        ReusableMethods.bekle(5); // Zorunlu
+
+    }
+
+    @Then("Kullanici sayfa url ini dogrular")
+    public void kullanici_sayfa_url_ini_dogrular() {
+
+        String expectedUrl = "https://qa.instulearn.com/panel";
+        String actualUrl = driver.getCurrentUrl();
+        Assert.assertEquals(actualUrl, expectedUrl);
+
+    }
+
+    @Then("Kullanici dashbordMenu ye gider")
+    public void kullanici_dashbord_menu_ye_gider() {
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(managementPage.dashboard).perform();
+        ReusableMethods.bekle(2);
+
+
+    }
+
+    @Then("kullanici dasboardMenU altinda courses secenegine tiklar")
+    public void kullanici_dasboard_men_u_altinda_courses_secenegine_tiklar() {
+
+        ClickUtils.smartClick(driver, managementPage.coursesButton);
+
+    }
+
+    @Then("Kullanici sayfanin resmini alip raporlar")
+    public void kullanici_sayfanin_resmini_alip_raporlar() throws IOException {
+        ReusableMethods.getScreenshot("Courses");
+        ReusableMethods.bekle(2);
+
+    }
+
+    @Then("Kullanici dashBoar altinda logoutButona basarak sayfadan ayrilir")
+    public void kullanici_dash_boar_altinda_logout_butona_basarak_sayfadan_ayrilir() {
+
+        ClickUtils.smartClick(driver, managementPage.logoutButton);
+        ReusableMethods.bekle(2);
+
+
+    }
+
+    @Then("Kullanici tarayiciyi kapatir")
+    public void kullanici_tarayiciyi_kapatir() {
+
+        driver.quit();
+
+    }
+
+    @When("Kullanici mailKutusuna teacherMail adresi girer")
+    public void kullaniciMailKutusunaTeacherMailAdresiGirer() {
+        SendKeysUtils.smartSendKeys(driver, managementPage.mailBox, "ahmet.teacher@instulearn.com");
+    }
+
+    @When("Kullanici passwordKutusuna passwordTeacher girer")
+    public void kullaniciPasswordKutusunaPasswordTeacherGirer() {
+        SendKeysUtils.smartSendKeys(driver, managementPage.passwordBox, "Learn.1406");
+
+    }
+
+    @When("Kullanici dashboardMenu altında newButona tiklar")
+    public void kullaniciDashboardMenuAltındaNewButonaTiklar() {
+        ClickUtils.smartClick(driver, managementPage.newButton);
+        ReusableMethods.bekle(12);
+    }
+
+    @When("Kullanici dashboardMenu ye gider")
+    public void kullaniciDashboardMenuYeGider() {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(managementPage.dashboard).perform();
+        ReusableMethods.bekle(2);
+    }
+
+    @When("Kullanici dashboardMenu altinda courses secenegine tiklar")
+    public void kullaniciDashboardMenuAltindaCoursesSecenegineTiklar() {
+
+        managementPage.coursesButton.click();
+        ReusableMethods.bekle(2);
+
+
+    }
+
+    @When("Kullanici coursTypeContainer a tiklar")
+    public void kullaniciCoursTypeContainerATiklar() {
+
+        managementPage.coursTypeContainer.click();
+        ReusableMethods.bekle(2);
+
+    }
+
+    @When("Kullanici videoCourse secenegine tiklar")
+    public void kullaniciVideoCourseSecenegineTiklar() {
+
+        managementPage.videoCourseOption.click();
+        ReusableMethods.bekle(2);
+
+
+    }
+
+    @When("Kullanici titleBox a course turunu girer")
+    public void kullaniciTitleBoxACourseTurunuGirer() {
+
+        //SendKeysUtils.smartSendKeys(driver,managementPage.newLessonTitleBox,"Math");
+        managementPage.newLessonTitleBox.sendKeys("Math");
+
+    }
+
+    @When("Kullanci basicInformationText uzerine tiklar")
+    public void kullanciBasicInformationTextUzerineTiklar() {
+        managementPage.basicInfoText.click();
+        ReusableMethods.bekle(1);
+
+    }
+
+    @When("Kullanici seoMeataDescription bolumune acmak istedigi ders ile ilgili bilgi girer")
+    public void kullaniciSeoMeataDescriptionBolumuneAcmakIstedigiDersIleIlgiliBilgiGirer() {
+
+        //SendKeysUtils.forceSendKeysWithJS(driver,managementPage.seoMateMessage,"Canlı matematik derslerimizle, uzman eğitmenler eşliğinde interaktif bir öğrenme deneyimi yaşayın. Anlık sorularınızı sorarak konuları derinlemesine anlayın.");
+        ReusableMethods.bekle(1);
+        SendKeysUtils.forceSendKeysWithJS(driver, managementPage.seoMateMessage, ManagementPage.newLessonMetaMassege);
+
+
+    }
+
+    @When("Kullanici descriptionBox a kurs aciklamasini girer")
+    public void kullaniciDescriptionBoxAKursAciklamasiniGirer() {
+
+
+        SendKeysUtils.forceSendKeysWithJS(driver, managementPage.descriptionBox, descriptionText);
+        ReusableMethods.bekle(1);
+
+
+    }
+
+    @When("Kullanici teacher newcourses sayfasindaki nextButona basar")
+    public void kullaniciTeacherNewcoursesSayfasindakiNextButonaBasar() {
+
+        ReusableMethods.doubleClick(driver, managementPage.nextStepButton);
+        ReusableMethods.bekle(3);
+
+        ReusableMethods.bekle(3);
+        ReusableMethods.scrollToElement(driver, managementPage.nextStepButton);
+        ReusableMethods.doubleClick(driver, managementPage.nextStepButton);
+        ClickUtils.forceClickWithJS(driver, managementPage.nextStepButton);
+        SendKeysUtils.forceSendKeysWithJS(driver, managementPage.descriptionBox, descriptionText);
+
+
+    }
+
+    @When("Kullanici acilan sayfada catagoriesButton a tiklar")
+    public void kullaniciAcilanSayfadaCatagoriesButtonATiklar() {
+
+        //ClickUtils.smartClick(driver,managementPage.catogoriesButton);
+        //ReusableMethods.bekle(1);
+    }
+
+
+    @When("Kullanici thumbnail sekmesinden a resim yuklemesi yapar")
+    public void kullaniciThumbnailSekmesindenAResimYuklemesiYapar() {
+        SendKeysUtils.forceSendKeysWithJS(driver, managementPage.thumbnailBox, fileThumbnailPath);
+    }
+
+
+    @When("Kullanici coverImage sekmesinden resim yuklemsei yapar")
+    public void kullaniciCoverImageSekmesindenResimYuklemseiYapar() {
+        SendKeysUtils.forceSendKeysWithJS(driver, managementPage.coverImageBox, fileCoverImagePath);
+    }
+
+    @When("Kullanici sayfanin altina navigasyon yapar")
+    public void kullaniciSayfaninAltinaNavigasyonYapar() {
+
+        ReusableMethods.scrollToBottom(driver);
+    }
+
+    @When("Kullnanici previousButonun gorunurlugune ve aktifligini test eder")
+    public void kullnaniciPreviousButonunGorunurluguneVeAktifliginiTestEder() {
+
+        // Her test metodu kendi SoftAssert nesnesini oluşturmalı.
+        SoftAssert softAssert = new SoftAssert();
+        WebElement previousButton = managementPage.previousButton;
+
+        // Elementin görünür olmasını bekleyin.
+        wait.until(ExpectedConditions.visibilityOf(previousButton));
+
+        softAssert.assertTrue(previousButton.isDisplayed(), "HATA: Previous butonu görünür değil.");
+        softAssert.assertTrue(previousButton.isEnabled(), "HATA: Previous butonu aktif (tıklanabilir) değil.");
+
+        // Tüm kontrolleri raporla.
+        softAssert.assertAll();
+    }
+
+
+    @When("Kullanici nextButon gorunurlugunu ve aktifligini test eder")
+    public void kullaniciNextButonGorunurlugunuVeAktifliginiTestEder() {
+        SoftAssert softAssert = new SoftAssert();
+        WebElement nextButton = managementPage.nextStepButton;
+        wait.until(ExpectedConditions.visibilityOf(nextButton));
+
+        softAssert.assertTrue(nextButton.isDisplayed(), "HATA: Next butonu görünür değil.");
+        softAssert.assertTrue(nextButton.isEnabled(), "HATA: Next butonu aktif (tıklanabilir) değil.");
+        softAssert.assertAll();
+    }
+
+    @When("Kullanici publishButon gorunurlugunu ve aktifligini test eder")
+    public void kullaniciPublishButonGorunurlugunuVeAktifliginiTestEder() {
+        SoftAssert softAssert = new SoftAssert();
+        WebElement publishButton = managementPage.publishButton;
+        wait.until(ExpectedConditions.visibilityOf(publishButton));
+
+        // Senaryoya göre butonun görünür olması bekleniyor, bu yüzden assertTrue kullanılmalı.
+        softAssert.assertTrue(publishButton.isDisplayed(), "HATA: Publish butonu görünür değil.");
+        softAssert.assertTrue(publishButton.isEnabled(), "HATA: Publish butonu aktif (tıklanabilir) değil.");
+        softAssert.assertAll();
+    }
+
+    @When("Kullanici saveAsDraftButon gorunurlugunu ve aktifligini test eder")
+    public void kullaniciSaveAsDraftButonGorunurlugunuVeAktifliginiTestEder() {
+        SoftAssert softAssert = new SoftAssert();
+        WebElement saveAsDraftButton = managementPage.saveAsDraftButton;
+        wait.until(ExpectedConditions.visibilityOf(saveAsDraftButton));
+
+        softAssert.assertTrue(saveAsDraftButton.isDisplayed(), "HATA: Save As Draft butonu görünür değil.");
+        softAssert.assertTrue(saveAsDraftButton.isEnabled(), "HATA: Save As Draft butonu aktif (tıklanabilir) değil.");
+        softAssert.assertAll();
+    }
+
+    @When("Kullanici deleteButton gorunurlugunu ve aktifligini test eder")
+    public void kullaniciDeleteButtonGorunurlugunuVeAktifliginiTestEder() {
+        SoftAssert softAssert = new SoftAssert();
+        WebElement deleteButton = managementPage.deleteButton;
+        wait.until(ExpectedConditions.visibilityOf(deleteButton));
+
+        softAssert.assertTrue(deleteButton.isDisplayed(), "HATA: Delete butonu görünür değil.");
+        softAssert.assertTrue(deleteButton.isEnabled(), "HATA: Delete butonu aktif (tıklanabilir) değil.");
+        softAssert.assertAll();
+    }
+
+    @When("Kullanici capacityBox kutusuna ogrenci kapasitesi girer")
+    public void kullaniciCapacityBoxKutusunaOgrenciKapasitesiGirer() {
+
+        managementPage.capacityBox.sendKeys("25");
+
+    }
+
+
+    @When("Kullanici durationOfNewCoursesBox a ders suresini girer")
+    public void kullaniciDurationOfNewCoursesBoxADersSuresiniGirer() {
+        managementPage.durationOfTimeBox.sendKeys("50");
+    }
+
+    @When("Kullanici supportSwitch butona basarak destek aktif eder")
+    public void kullaniciSupportSwitchButonaBasarakDestekAktifEder() {
+
+        ClickUtils.smartClick(driver, managementPage.supportSwitchButton);
+        ReusableMethods.bekle(1);
+    }
+
+    @When("Kullanici completionCertifaeced butona basarak sertifika aktif eder")
+    public void kullaniciCompletionCertifaecedButonaBasarakSertifikaAktifEder() {
+        ClickUtils.smartClick(driver, managementPage.downloadAbleSwitchButon);
+        ReusableMethods.bekle(1);
+
+
+    }
+
+
+    @When("Kullanici tagsBox kutusuna akilda kalici bir kelime girer")
+    public void kullaniciTagsBoxKutusunaAkildaKaliciBirKelimeGirer() {
+        managementPage.tagsBox.sendKeys("mathandFenbilgisi");
+
+
+    }
+
+    @When("Kullanici catogoryDrapDownMenu den secim yapar")
+    public void kullaniciCatogoryDrapDownMenuDenSecimYapar() {
+
+        // managementPage.coursesCotegoryButton.click();
+        // ReusableMethods.bekle(1);
+
+        ReusableMethods.selectByIndex(managementPage.coursesCotegoryButton, 2);
+
+    }
+
+    @When("Kullanici getNextStepButona basarak sonraki sayfaya gecer")
+    public void kullaniciGetNextStepButonaBasarakSonrakiSayfayaGecer() {
+        managementPage.getNextStepButton.click();
+
+    }
+
+    @When("Kullanici savAsDraftButon a basar")
+    public void kullaniciSavAsDraftButonABasar() throws IOException {
+        managementPage.saveAsDraftButton.click();
+
+        ReusableMethods.getScreenshot("Courses");
+
+        // Bir sonraki sayfanın kilit elementinin (capacityBox) görünür olmasını bekle
+        //wait.until(ExpectedConditions.visibilityOf(managementPage.capacityBox));
+
+    }
+
+    @When("Kullanici svagButon a tiklar")
+    public void kullaniciSvagButonATiklar() {
+        ClickUtils.forceClickWithJS(driver, managementPage.svagButton);
+        ReusableMethods.bekle(2);
+    }
+
+    @When("Kullanici svagMenu den select edit options")
+    public void kullaniciSvagMenuDenSelectEditOptions() {
+
+        ClickUtils.smartClick(driver, managementPage.editButon);
+
+        //
+    }
+
+    @When("Kullanici extraInformation sayfasina gider endPoint")
+    public void kullaniciExtraInformationSayfasinaGiderEndPoint() {
+
+        driver.get(LOGIN_PAGE_URL);
+        ReusableMethods.bekle(2);
+        managementPage.mailBox.sendKeys(teacherMail);
+        ReusableMethods.bekle(2);
+        managementPage.passwordBox.sendKeys(teacherPassword);
+        ReusableMethods.bekle(2);
+        managementPage.submitButton.click();
+        ReusableMethods.bekle(2);
+        driver.get(EXTRA_INFORMATIONS_URL);  // 2
+        ReusableMethods.bekle(2);
+        //driver.get(PRICING_URL);            // 3
+        ReusableMethods.bekle(2);
+        //driver.get(CONTENT_URL);            // 4
+        ReusableMethods.bekle(2);
+        //driver.get(PREREQUISITES_URL);     // 5
+        ReusableMethods.bekle(2);
+        //driver.get(FAQ_URL);               // 6
+        ReusableMethods.bekle(2);
+        //driver.get(QUIZ_URL);             // 7
+        ReusableMethods.bekle(2);
+
+
+    }
+
+    @When("Kullanici pricing sayfasina gider endPoint")
+    public void kullaniciPricingSayfasinaGiderEndPoint() {
+
+
+        driver.get(LOGIN_PAGE_URL);
+        ReusableMethods.bekle(2);
+        managementPage.mailBox.sendKeys(teacherMail);
+        ReusableMethods.bekle(2);
+        managementPage.passwordBox.sendKeys(teacherPassword);
+        ReusableMethods.bekle(2);
+        managementPage.submitButton.click();
+        ReusableMethods.bekle(2);
+        //driver.get(EXTRA_INFORMATIONS_URL);  // 2
+        ReusableMethods.bekle(2);
+        driver.get(PRICING_URL);            // 3
+        ReusableMethods.bekle(2);
+        //driver.get(CONTENT_URL);            // 4
+        ReusableMethods.bekle(2);
+        //driver.get(PREREQUISITES_URL);     // 5
+        ReusableMethods.bekle(2);
+        //driver.get(FAQ_URL);               // 6
+        ReusableMethods.bekle(2);
+        //driver.get(QUIZ_URL);             // 7
+        ReusableMethods.bekle(2);
+
+
+    }
+
+    @When("Kullanici content sayfasina gider endPoint")
+    public void kullaniciContentSayfasinaGiderEndPoint() {
+        driver.get(LOGIN_PAGE_URL);
+        ReusableMethods.bekle(2);
+        managementPage.mailBox.sendKeys(teacherMail);
+        ReusableMethods.bekle(2);
+        managementPage.passwordBox.sendKeys(teacherPassword);
+        ReusableMethods.bekle(2);
+        managementPage.submitButton.click();
+        ReusableMethods.bekle(2);
+        //driver.get(EXTRA_INFORMATIONS_URL);  // 2
+        ReusableMethods.bekle(2);
+        //driver.get(PRICING_URL);            // 3
+        ReusableMethods.bekle(2);
+        driver.get(CONTENT_URL);            // 4
+        ReusableMethods.bekle(2);
+        //driver.get(PREREQUISITES_URL);     // 5
+        ReusableMethods.bekle(2);
+        //driver.get(FAQ_URL);               // 6
+        ReusableMethods.bekle(2);
+        //driver.get(QUIZ_URL);             // 7
+        ReusableMethods.bekle(2);
+    }
+
+    @When("Kullanici preRequisites sayfasina gider endPoint")
+    public void kullaniciPreRequisitesSayfasinaGiderEndPoint() {
+
+        driver.get(LOGIN_PAGE_URL);
+        ReusableMethods.bekle(2);
+        managementPage.mailBox.sendKeys(teacherMail);
+        ReusableMethods.bekle(2);
+        managementPage.passwordBox.sendKeys(teacherPassword);
+        ReusableMethods.bekle(2);
+        managementPage.submitButton.click();
+        ReusableMethods.bekle(2);
+        //driver.get(EXTRA_INFORMATIONS_URL);  // 2
+        ReusableMethods.bekle(2);
+        //driver.get(PRICING_URL);            // 3
+        ReusableMethods.bekle(2);
+        //driver.get(CONTENT_URL);            // 4
+        ReusableMethods.bekle(2);
+        driver.get(PREREQUISITES_URL);     // 5
+        ReusableMethods.bekle(2);
+        //driver.get(FAQ_URL);               // 6
+        ReusableMethods.bekle(2);
+        //driver.get(QUIZ_URL);             // 7
+        ReusableMethods.bekle(2);
+
+
+    }
+
+    @When("Kullanici FAQ sayfasina gider endPoint")
+    public void kullaniciFAQSayfasinaGiderEndPoint() {
+
+        driver.get(LOGIN_PAGE_URL);
+        ReusableMethods.bekle(2);
+        managementPage.mailBox.sendKeys(teacherMail);
+        ReusableMethods.bekle(2);
+        managementPage.passwordBox.sendKeys(teacherPassword);
+        ReusableMethods.bekle(2);
+        managementPage.submitButton.click();
+        ReusableMethods.bekle(2);
+        //driver.get(EXTRA_INFORMATIONS_URL);  // 2
+        ReusableMethods.bekle(2);
+        //driver.get(PRICING_URL);            // 3
+        ReusableMethods.bekle(2);
+        //driver.get(CONTENT_URL);            // 4
+        ReusableMethods.bekle(2);
+        //driver.get(PREREQUISITES_URL);     // 5
+        ReusableMethods.bekle(2);
+        driver.get(FAQ_URL);               // 6
+        ReusableMethods.bekle(2);
+        //driver.get(QUIZ_URL);             // 7
+        ReusableMethods.bekle(2);
+    }
+
+    @When("Kullanici Quiz olusturma sayfasina gider endPoint")
+    public void kullaniciQuizOlusturmaSayfasinaGiderEndPoint() {
+
+        driver.get(LOGIN_PAGE_URL);
+        ReusableMethods.bekle(2);
+        managementPage.mailBox.sendKeys(teacherMail);
+        ReusableMethods.bekle(2);
+        managementPage.passwordBox.sendKeys(teacherPassword);
+        ReusableMethods.bekle(2);
+        managementPage.submitButton.click();
+        ReusableMethods.bekle(2);
+        //driver.get(EXTRA_INFORMATIONS_URL);  // 2
+        ReusableMethods.bekle(2);
+        //driver.get(PRICING_URL);            // 3
+        ReusableMethods.bekle(2);
+        //driver.get(CONTENT_URL);            // 4
+        ReusableMethods.bekle(2);
+        //driver.get(PREREQUISITES_URL);     // 5
+        ReusableMethods.bekle(2);
+        //driver.get(FAQ_URL);               // 6
+        ReusableMethods.bekle(2);
+        driver.get(QUIZ_URL);             // 7
+        ReusableMethods.bekle(2);
+    }
+
+    @When("preCondition Kullanici sayfaya teacher giris yapar")
+    public void preconditionKullaniciSayfayaTeacherGirisYapar() {
+
+        driver.get(LOGIN_PAGE_URL);
+        ReusableMethods.bekle(2);
+        managementPage.mailBox.sendKeys(teacherMail);
+        ReusableMethods.bekle(2);
+        managementPage.passwordBox.sendKeys(teacherPassword);
+        ReusableMethods.bekle(2);
+        managementPage.submitButton.click();
+        ReusableMethods.bekle(2);
+
+    }
+
+    @When("preConditon Kullanici newCourse olusturma sayfasina gider")
+    public void preconditonKullaniciNewCourseOlusturmaSayfasinaGider() {
+
+        driver.get(LOGIN_PAGE_URL);
+        ReusableMethods.bekle(2);
+        managementPage.mailBox.sendKeys(teacherMail);
+        ReusableMethods.bekle(2);
+        managementPage.passwordBox.sendKeys(teacherPassword);
+        ReusableMethods.bekle(2);
+        managementPage.submitButton.click();
+        ReusableMethods.bekle(2);
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(managementPage.dashboard).perform();
+        ReusableMethods.bekle(2);
+        ClickUtils.smartClick(driver, managementPage.coursesButton);
+        ClickUtils.smartClick(driver, managementPage.newButton);
+        ReusableMethods.bekle(12);
+
+
+    }
+
+    @When("preContion Kullanici basicInfo bilgilerini siteme giris yapar")
+    public void precontionKullaniciBasicInfoBilgileriniSitemeGirisYapar() {
+
+        //ReusableMethods.scrollToBottom(driver);
+        //managementPage.descriptionBox.sendKeys(descriptionText);
+
+
+        managementPage.coursTypeContainer.click();
+        ReusableMethods.bekle(2);
+        managementPage.videoCourseOption.click();
+        ReusableMethods.bekle(2);
+        //SendKeysUtils.smartSendKeys(driver,managementPage.newLessonTitleBox,"Math");
+        managementPage.newLessonTitleBox.sendKeys("Physics");
+        managementPage.basicInfoText.click();
+        ReusableMethods.bekle(1);
+        ReusableMethods.bekle(1);
+        SendKeysUtils.forceSendKeysWithJS(driver, managementPage.seoMateMessage, ManagementPage.newLessonMetaMassege);
+
+        // THUMBNAIL UPLOAD İŞLEMLERİ
+        // Önce ana sayfaya dön ve thumbnail butonuna tıkla
+        // Driver.getDriver().get("https://qa.instulearn.com/instructor/courses");
+        ReusableMethods.bekle(2);
+
+        // Thumbnail butonuna tıkla (file manager'ı aç)
+        ReusableMethods.waitForClickablility(driver, managementPage.thumbnailButton, 10).click();
+        managementPage.thumbnailButton.click();
+        ReusableMethods.bekle(3);
+
+        // File manager penceresine geç
+
+        //ReusableMethods.switchToWindow(1); // Yeni açılan pencereye geç
+        SwitchToWindow.switchToWindowByIndex(driver,1);
+        ReusableMethods.bekle(2);
+
+        // Upload işlemi - YÖNTEM 1: Doğrudan file input kullan
+        try {
+            // File input elementini bul (genellikle gizli oluyor)
+
+            managementPage.plusButton.click();
+            ReusableMethods.bekle(2);
+            managementPage.uploadButton.click();
+            ReusableMethods.bekle(2);
+
+            WebElement fileInput = driver.findElement(By.cssSelector("input[type='file']"));
+
+            // Dosya yolunu gönder
+            String filePath = "C:\\Users\\user\\Desktop\\instuLearn\\test1.jpeg";
+            fileInput.sendKeys(filePath);
+
+            // Upload'ın tamamlanmasını bekle
+            ReusableMethods.bekle(3);
+
+            // Dosya seçildikten sonra "Use" veya "Select" butonuna tıkla
+            WebElement useButton = driver.findElement(By.xpath("//button[contains(text(),'Use')]"));
+            useButton.click();
+
+        } catch (Exception e) {
+            // Eğer file input bulunamazsa, alternatif yöntem
+            System.out.println("File input bulunamadı, alternatif yöntem deneniyor...");
+            alternativeUploadMethod();
+        }
+
+        // Ana pencereye geri dön
+        SwitchToWindow.switchToWindowByIndex(driver,0);
+        //ReusableMethods.switchToWindow("0");
+        ReusableMethods.bekle(2);
+
+        // Kurs oluşturma işlemine devam et
+        // Örneğin: Save veya Create Course butonuna tıkla
+        // ReusableMethods.waitForClickablility(stdunetPages.saveButton, 10).click();
+
+        //<! thumnail yukleme adımları bitir
+
+
+
+        //<! -- ======== image yukleme adımları
+
+        // THUMBNAIL UPLOAD İŞLEMLERİ
+        // Önce ana sayfaya dön ve thumbnail butonuna tıkla
+        // Driver.getDriver().get("https://qa.instulearn.com/instructor/courses");
+        ReusableMethods.bekle(2);
+
+        // Thumbnail butonuna tıkla (file manager'ı aç)
+        ReusableMethods.waitForClickablility(driver, managementPage.thumbnailButton, 10).click();
+        managementPage.thumbnailButton.click();
+        ReusableMethods.bekle(3);
+
+        // File manager penceresine geç
+
+        //ReusableMethods.switchToWindow(1); // Yeni açılan pencereye geç
+        SwitchToWindow.switchToWindowByIndex(driver,1);
+        ReusableMethods.bekle(2);
+
+        // Upload işlemi - YÖNTEM 1: Doğrudan file input kullan
+        try {
+            // File input elementini bul (genellikle gizli oluyor)
+
+            managementPage.plusButton.click();
+            ReusableMethods.bekle(2);
+            managementPage.uploadButton.click();
+            ReusableMethods.bekle(2);
+
+            WebElement fileInput = driver.findElement(By.cssSelector("input[type='file']"));
+
+            // Dosya yolunu gönder
+            String filePath = "C:\\Users\\user\\Desktop\\instuLearn\\test1.jpeg";
+            fileInput.sendKeys(filePath);
+
+            // Upload'ın tamamlanmasını bekle
+            ReusableMethods.bekle(3);
+
+            // Dosya seçildikten sonra "Use" veya "Select" butonuna tıkla
+            WebElement useButton = driver.findElement(By.xpath("//button[contains(text(),'Use')]"));
+            useButton.click();
+
+        } catch (Exception e) {
+            // Eğer file input bulunamazsa, alternatif yöntem
+            System.out.println("File input bulunamadı, alternatif yöntem deneniyor...");
+            alternativeUploadMethod();
+        }
+
+        // Ana pencereye geri dön
+        SwitchToWindow.switchToWindowByIndex(driver,0);
+        //ReusableMethods.switchToWindow("0");
+        ReusableMethods.bekle(2);
+
+        // Kurs oluşturma işlemine devam et
+        // Örneğin: Save veya Create Course butonuna tıkla
+        // ReusableMethods.waitForClickablility(stdunetPages.saveButton, 10).click();
+
+        //<! -- image yükleme adımları
+
+
+        //<! -- ifarme geçiş adımları
+
+        // AÇIKLAMA ALANINA METİN YAZMA
+        // 1. iframe'e geçiş yap
+        //WebElement descriptionFrame = driver.findElement(By.xpath("//div[@class='note-editor note-frame card']")); // ID'yi kontrol edin
+        //driver.switchTo().frame(descriptionFrame);
+
+        // 2. iframe içindeki body elementini bul ve metni yaz
+        WebElement descriptionBody = driver.findElement(By.xpath("//div[@class='note-editable card-block']"));
+        //descriptionBody.clear(); // Önce mevcut içeriği temizle
+        descriptionBody.sendKeys("Bu, zengin metin editörüne yazılmış bir test metnidir. HTML ve görseller desteklenmektedir.");
+        SendKeysUtils.forceSendKeysWithJS(driver, descriptionBody,descriptionText);
+
+        // 3. Ana sayfaya geri dön
+        driver.switchTo().defaultContent();
+
+        // -- ============================================
+
+
+        ClickUtils.forceClickWithJS(driver,managementPage.saveAsDraftButton);
+
+
+        driver.get("https://qa.instulearn.com/panel/webinars");
+
+        WebElement productItem = driver.findElement(By.xpath("//span[@class='stat-value']"));
+        String PRODUCT_ITEM_NEW=productItem.getText();
+
+        driver.get(HEAD_URL+PRODUCT_ITEM_NEW+SECTION_URL+END_POINT2);
+
+
+       // driver.get(EXTRA_INFORMATIONS_URL);
+
+    }
+
+    // Alternatif upload yöntemi
+    private void alternativeUploadMethod() {
+        try {
+            // Plus butonuna tıkla
+            ReusableMethods.waitForClickablility(driver, managementPage.plusButton, 10).click();
+            ReusableMethods.bekle(2);
+
+            // Upload butonuna tıkla
+            ReusableMethods.waitForClickablility(driver, managementPage.uploadButton, 10).click();
+            ReusableMethods.bekle(2);
+
+            // File input'u bul ve dosya yükle
+            WebElement fileInput = driver.findElement(By.cssSelector("input[type='file']"));
+            String filePath = "C:\\Users\\user\\Desktop\\instuLearn\\test1.jpeg";
+            fileInput.sendKeys(filePath);
+
+            // Upload'ın tamamlanmasını bekle
+            ReusableMethods.bekle(3);
+
+            // Dosya listesinde yüklenen dosyayı seç
+            WebElement uploadedFile = driver.findElement(By.xpath("//a[contains(text(),'test1.jpeg')]"));
+            uploadedFile.click();
+            ReusableMethods.bekle(2);
+
+            // Use butonuna tıkla
+            WebElement useButton = driver.findElement(By.xpath("//button[contains(text(),'Use')]"));
+            useButton.click();
+
+        } catch (Exception e) {
+            System.out.println("Alternatif yöntem de başarısız: " + e.getMessage());
+        }
+
+    }
+
+    @When("Kullanici descriptionBox a kurs aciklamasini girer scrollBottom")
+    public void kullaniciDescriptionBoxAKursAciklamasiniGirerScrollBottom() {
+
+        //ReusableMethods.scrollToBottom(driver);
+        managementPage.descriptionBox.sendKeys(descriptionText);
+        //SendKeysUtils.forceSendKeysWithJS(driver, managementPage.descriptionBox, descriptionText);
+        //SendKeysUtils.smartSendKeys(driver,managementPage.descriptionBox, descriptionText);
+
+        //ReusableMethods.selectByIndex(managementPage.coursesCotegoryButton, 2);
+        //managementPage.nextStepButton.click();
+
+    }
+
+    @When("Kullanici thumbnail sekmesinden dosya yolu verir")
+    public void kullaniciThumbnailSekmesindenDosyaYoluVerir() {
+
+        SendKeysUtils.smartSendKeys(driver, managementPage.thumbnailBox, fileThumbnailPath);
+    }
+
+    @When("Kullanici coverImage sekmesinde dosya yolu verir")
+    public void kullaniciCoverImageSekmesindeDosyaYoluVerir() {
+
+        SendKeysUtils.smartSendKeys(driver, managementPage.coverImageBox, fileCoverImagePath);
+    }
+
+    @When("Kullanici savAsDraftButon a double click yapar")
+    public void kullaniciSavAsDraftButonADoubleClickYapar() {
+
+        ClickUtils.forceClickWithJS(driver, managementPage.saveAsDraftButton);
+    }
+
+    @When("preConditon Kullanici login giris yapar")
+    public void preconditonKullaniciLoginGirisYapar() {
+
+        driver.get(LOGIN_PAGE_URL);
+        ReusableMethods.bekle(2);
+        managementPage.mailBox.sendKeys(teacherMail);
+        ReusableMethods.bekle(2);
+        managementPage.passwordBox.sendKeys(teacherPassword);
+        ReusableMethods.bekle(2);
+        managementPage.submitButton.click();
+        ReusableMethods.bekle(2);
+
+    }
+
+    @When("preconditon Kullanici webinars sayfasina gider")
+    public void preconditonKullaniciWebinarsSayfasinaGider() {
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(managementPage.dashboard).perform();
+        ReusableMethods.bekle(2);
+
+        managementPage.coursesButton.click();
+        ReusableMethods.bekle(2);
+
+        ClickUtils.forceClickWithJS(driver,managementPage.myCoursesButton);
+        ReusableMethods.bekle(2);
+
+        ClickUtils.forceClickWithJS(driver,managementPage.webinarDropDownMenuSvagButton);
+        ReusableMethods.bekle(2);
+
+
+        ClickUtils.forceClickWithJS(driver,managementPage.editButton);
+        ReusableMethods.bekle(2);
+    }
+
+    @When("Kullanici extraInformationButon a basar")
+    public void kullaniciExtraInformationButonABasar() {
+        ClickUtils.forceClickWithJS(driver,managementPage.extraInformationButton);
+        ReusableMethods.bekle(2);
+    }
+
+    @When("Kullanici startDateBox kutusuna tarih girer")
+    public void kullaniciStartDateBoxKutusunaTarihGirer() {
+
+
+
+    }
+
+    @When("hooks kullanici pricing sayfasina gider")
+    public void hooksKullaniciPricingSayfasinaGider() {
+
+        driver.get(PRICING_URL);
+    }
+
+
+    @When("Kullanici accessPeriodBox a gecerli gun degerini girer")
+    public void kullaniciAccessPeriodBoxAGecerliGunDegeriniGirer() {
+
+        managementPage.accessDaysBox.sendKeys("30");
+        ReusableMethods.bekle(2);
+    }
+
+    @When("kullanici priceBox kutusuna free deger girer")
+    public void kullaniciPriceBoxKutusunaFreeDegerGirer() {
+
+        managementPage.priceBox.sendKeys("0");
+        ReusableMethods.bekle(2);
+    }
+
+    @When("Kullanici newPlanButon a tiklar")
+    public void kullaniciNewPlanButonATiklar() {
+
+        ClickUtils.forceClickWithJS(driver,managementPage.newPlanButton);
+        ReusableMethods.bekle(2);
+    }
+
+    @When("Kullanici titleBox Kutusuna baslik girer")
+    public void kullaniciTitleBoxKutusunaBaslikGirer() {
+
+
+        SendKeysUtils.forceSendKeysWithJS(driver,managementPage.planNameBox,"Free");
+
+
+
+
+    }
+
+    @When("Kullanici pricingSaveButon a tiklar")
+    public void kullaniciPricingSaveButonATiklar() {
+
+        ClickUtils.forceClickWithJS(driver,managementPage.pricingSaveButton);
+        ReusableMethods.bekle(2);
+
+        driver.get(CONTENT_URL);
+    }
+
+    @When("hooks kullanici contentPage sayfasina gider")
+    public void hooksKullaniciContentPageSayfasinaGider() {
+
+        driver.get(CONTENT_URL);
+    }
+}
