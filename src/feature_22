@@ -1,0 +1,211 @@
+Feature: Kayitli bir kullanici olarak Dashboard panelimde kursları yonetebilecegim  bir sayfanin olmasini istiyorum
+
+  Scenario: TC01 Dashboard sideBar'da Courses menu basligi altında 'New'  linki gorunur ve aktif olmali.
+     Given Kullanici Login sayfasina gider
+    Then Kullanici mailKutusuna ogrenciMail adresi girer
+    Then Kullanici passwordKutusuna ogrenciSifre girer
+    And Kullanici submitButona basar
+    And Kullanici sayfa url ini dogrular
+    Then Kullanici dashbordMenu ye gider
+    And kullanici dasboardMenU altinda courses secenegine tiklar
+    Then Kullanici sayfanin resmini alip raporlar
+    And Kullanici dashBoar altinda logoutButona basarak sayfadan ayrilir
+    And Kullanici tarayiciyi kapatir
+
+
+    Scenario: TC02 New Course sayfasında Basic Info icin Gerekli Form bilgileri doldurulmalı
+
+
+      * Kullanici Login sayfasina gider
+      * Kullanici mailKutusuna teacherMail adresi girer
+      * Kullanici passwordKutusuna passwordTeacher girer
+      * Kullanici submitButona basar
+      * Kullanici dashboardMenu altinda courses secenegine tiklar
+      * Kullanici dashboardMenu altında newButona tiklar
+      * Kullanici coursTypeContainer a tiklar
+      * Kullanici videoCourse secenegine tiklar
+      * Kullanci basicInformationText uzerine tiklar
+      * Kullanici titleBox a course turunu girer
+      * Kullanici seoMeataDescription bolumune acmak istedigi ders ile ilgili bilgi girer
+      * Kullanici thumbnail sekmesinden a resim yuklemesi yapar
+      * Kullanici coverImage sekmesinden resim yuklemsei yapar
+      * Kullanici descriptionBox a kurs aciklamasini girer
+      * Kullanici teacher newcourses sayfasindaki nextButona basar
+
+
+
+
+
+    Scenario: TC03 Private,Next,Previous,Save as Draft,Delete butonları görünür ve aktif olmalıdır.
+
+
+      * Kullanici Login sayfasina gider
+      * Kullanici mailKutusuna teacherMail adresi girer
+      * Kullanici passwordKutusuna passwordTeacher girer
+      * Kullanici submitButona basar
+      * Kullanici dashboardMenu altinda courses secenegine tiklar
+      * Kullanici dashboardMenu altında newButona tiklar
+      * Kullanici sayfanin altina navigasyon yapar
+      * Kullanici nextButon gorunurlugunu ve aktifligini test eder
+      * Kullanici publishButon gorunurlugunu ve aktifligini test eder
+      * Kullanici saveAsDraftButon gorunurlugunu ve aktifligini test eder
+      * Kullanici deleteButton gorunurlugunu ve aktifligini test eder
+
+
+
+
+
+
+    Scenario: TC04 Extra Information icin gerekli form bilgileri doldurulup sonraki sayfaya gecis yapılabilmelidir.
+
+
+      * Kullanici Login sayfasina gider
+      * Kullanici mailKutusuna teacherMail adresi girer
+      * Kullanici passwordKutusuna passwordTeacher girer
+      * Kullanici submitButona basar
+      * Kullanici dashboardMenu altinda courses secenegine tiklar
+      * Kullanici dashboardMenu altında newButona tiklar
+      * Kullanici coursTypeContainer a tiklar
+      * Kullanici videoCourse secenegine tiklar
+      * Kullanci basicInformationText uzerine tiklar
+      * Kullanici titleBox a course turunu girer
+      * Kullanici seoMeataDescription bolumune acmak istedigi ders ile ilgili bilgi girer
+      * Kullanici thumbnail sekmesinden a resim yuklemesi yapar
+      * Kullanici coverImage sekmesinden resim yuklemsei yapar
+      * Kullanici descriptionBox a kurs aciklamasini girer
+      * Kullanici savAsDraftButon a basar
+      * Kullanici teacher newcourses sayfasindaki nextButona basar
+      * Kullanici capacityBox kutusuna ogrenci kapasitesi girer
+      * Kullanici durationOfNewCoursesBox a ders suresini girer
+      * Kullanici supportSwitch butona basarak destek aktif eder
+      * Kullanici completionCertifaeced butona basarak sertifika aktif eder
+      * Kullanici tagsBox kutusuna akilda kalici bir kelime girer
+      * Kullanici catogoryDrapDownMenu den secim yapar
+      * Kullanici getNextStepButona basarak sonraki sayfaya gecer
+
+
+
+    Scenario: TC05 New Courses altındaki bilgileri doldurup savAsDraft butona tıklayabilmelidir
+
+
+      * Kullanici Login sayfasina gider
+      * Kullanici mailKutusuna teacherMail adresi girer
+      * Kullanici passwordKutusuna passwordTeacher girer
+      * Kullanici submitButona basar
+      * Kullanici dashboardMenu altinda courses secenegine tiklar
+      * Kullanici dashboardMenu altında newButona tiklar
+      * Kullanici coursTypeContainer a tiklar
+      * Kullanici videoCourse secenegine tiklar
+      * Kullanci basicInformationText uzerine tiklar
+      * Kullanici titleBox a course turunu girer
+      * Kullanici seoMeataDescription bolumune acmak istedigi ders ile ilgili bilgi girer
+      * Kullanici thumbnail sekmesinden a resim yuklemesi yapar
+      * Kullanici coverImage sekmesinden resim yuklemsei yapar
+      * Kullanici descriptionBox a kurs aciklamasini girer
+      * Kullanici savAsDraftButon a basar
+      * Kullanici svagButon a tiklar
+      * Kullanici svagMenu den select edit options
+
+
+
+    Scenario: TC06 Kullanici endPoint kullanarak Extra Information sayfasina gider
+      * Kullanici extraInformation sayfasina gider endPoint
+
+
+
+    Scenario: TC07 Kullanici endPoint kullanarak Pricing page sayfasina gider
+      * Kullanici pricing sayfasina gider endPoint
+
+
+
+    Scenario: TC08 Kullanici endPoint kullanarak Content page sayfasina gider
+      * Kullanici content sayfasina gider endPoint
+
+
+
+    Scenario: TC09 Kullanici endPoint Kullanarak preRequisites page sayfasina gider
+      * Kullanici preRequisites sayfasina gider endPoint
+
+
+
+    Scenario: TC10 Kullanici endPoint kullanarak FAQ page sayfasina gider
+      * Kullanici FAQ sayfasina gider endPoint
+
+
+    Scenario: TC11 Kullanici endPoint kullanarak Quiz pae sayfasina gider
+      * Kullanici Quiz olusturma sayfasina gider endPoint
+
+
+
+    Scenario: TC11 kullanici sayfaya giriş yapmak için preConditon method olusturur
+
+      * preCondition Kullanici sayfaya teacher giris yapar
+
+
+    Scenario: TC12 Kullanici Course olusturma sayfasina gider
+
+      * preConditon Kullanici newCourse olusturma sayfasina gider
+
+
+    Scenario: TC13 Kullanici yeni course olusturur
+
+      * preConditon Kullanici newCourse olusturma sayfasina gider
+      * preContion Kullanici basicInfo bilgilerini siteme giris yapar
+
+
+    Scenario: TC14  Kullanici yeni course olusturma sayfasinda descriptionbox a yazı gönderir
+      * preConditon Kullanici newCourse olusturma sayfasina gider
+      * Kullanici descriptionBox a kurs aciklamasini girer scrollBottom
+
+
+    Scenario: TC15 Kullanici newCourse olusturur
+      * preConditon Kullanici newCourse olusturma sayfasina gider
+      * Kullanici coursTypeContainer a tiklar
+      * Kullanici videoCourse secenegine tiklar
+      * Kullanci basicInformationText uzerine tiklar
+      * Kullanici titleBox a course turunu girer
+      * Kullanici seoMeataDescription bolumune acmak istedigi ders ile ilgili bilgi girer
+      * Kullanici thumbnail sekmesinden dosya yolu verir
+      * Kullanici coverImage sekmesinde dosya yolu verir
+      * Kullanici descriptionBox a kurs aciklamasini girer scrollBottom
+      * Kullanici savAsDraftButon a double click yapar
+
+
+    Scenario:TC16 Kullanici extraInformation sayfasinda bilgi girer
+      * preConditon Kullanici login giris yapar
+      * preconditon Kullanici webinars sayfasina gider
+      # yukaidaki satir sadece bağlayici elementtir.
+      * Kullanici extraInformationButon a basar
+      * Kullanici capacityBox kutusuna ogrenci kapasitesi girer
+      * Kullanici durationOfNewCoursesBox a ders suresini girer
+      * Kullanici getNextStepButona basarak sonraki sayfaya gecer
+
+
+
+  @US022Studen
+    Scenario: TC17 Kullanici pricing sayfasina gider
+      * preConditon Kullanici login giris yapar
+      * hooks kullanici pricing sayfasina gider
+      * Kullanici accessPeriodBox a gecerli gun degerini girer
+      * kullanici priceBox kutusuna free deger girer
+      # Kullanici newPlanButon a tiklar
+      * Kullanici titleBox Kutusuna baslik girer
+      * Kullanici savAsDraftButon a basar
+    # bu sayfadan sonra webinar sayfası gelir
+
+
+    Scenario: TC18 Kullanici contentPage sayfasina gider
+      * preConditon Kullanici login giris yapar
+      * hooks kullanici contentPage sayfasina gider
+
+
+
+
+
+
+
+
+
+
+
+
