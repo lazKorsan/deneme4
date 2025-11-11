@@ -1,0 +1,52 @@
+package utils;
+
+import org.openqa.selenium.WebDriver;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+public class SwitchToWindow {
+
+    /**
+     * Opens a new blank tab and switches to it.
+     * @param driver The WebDriver instance.
+     */
+    public static void openAndSwitchToNewTab(WebDriver driver) {
+        driver.switchTo().newWindow(org.openqa.selenium.WindowType.TAB);
+        LoggerHelper.info("Opened and switched to a new tab.");
+    }
+
+    /**
+     * Switches to a window/tab by its index.
+     * @param driver The WebDriver instance.
+     * @param index The index of the window to switch to (0 for the first window, 1 for the second, etc.).
+     */
+    public static void switchToWindowByIndex(WebDriver driver, int index) {
+        Set<String> windowHandles = driver.getWindowHandles();
+        List<String> windowHandlesList = new ArrayList<>(windowHandles);
+
+        if (index >= 0 && index < windowHandlesList.size()) {
+            String windowHandle = windowHandlesList.get(index);
+            driver.switchTo().window(windowHandle);
+            LoggerHelper.info("Switched to window with index: " + index);
+        } else {
+            LoggerHelper.error("Invalid window index: " + index + ". Total windows: " + windowHandlesList.size());
+            throw new IndexOutOfBoundsException("Invalid window index: " + index + ". Total windows: " + windowHandlesList.size());
+        }
+    }
+
+    /**
+     * Closes the current tab and switches back to the original tab (usually the first one).
+     * @param driver The WebDriver instance.
+     */
+    public static void closeCurrentTabAndSwitchToOriginal(WebDriver driver) {
+        if (driver.getWindowHandles().size() > 1) {
+            String originalHandle = driver.getWindowHandles().iterator().next();
+            driver.close();
+            driver.switchTo().window(originalHandle);
+            LoggerHelper.info("Closed current tab and switched back to the original window.");
+        } else {
+            LoggerHelper.warn("Only one window is open. Cannot close and switch.");
+        }
+    }
+}
